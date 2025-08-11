@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=close" />
+    <link rel="stylesheet" href="login.css">
+    <title>Entrar</title>
+</head>
+<body>
+    <div class="main">
+        <div class="login-container">
+            <div class="login-header">
+                <h1>Entrar em Wattech</h1>
+            </div>
+            <div class="error">
+                <span>E-mail ou senha incorretos.</span>
+                <span class="material-symbols-outlined icon-close" onclick="fecharAlerta()">close</span>
+            </div>
+            <form class="login-body">
+                <div class="input-container">
+                    <label for="email">E-mail</label>
+                    <input type="text" id="email" name="email" required>
+                </div>
+                
+                <div class="input-container">
+                    <label for="senha">Senha</label>
+                    <input type="password" id="senha" name="senha" required>
+                </div>
+
+                <button type="submit" class="login-btn" onclick="entrar(event)">Entrar</button>
+            </form>
+        </div>
+    </div>
+</body>
+<script src="./login.js" async></script>
+</html>
