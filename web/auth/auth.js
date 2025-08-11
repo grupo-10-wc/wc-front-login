@@ -20,7 +20,6 @@ function autenticar(event) {
     }
 
     if (input === otp) {
-        alert('Autenticado com sucesso!');
         window.location.href = "https://docs.google.com/spreadsheets/d/1RCEqEx8ryDoGd82Wm_-ljPLs8MPucLSM3BL4FWjBPUc/edit?pli=1&gid=1068434589#gid=1068434589";
     } else {
         document.querySelector('.error').style.display = 'flex';
