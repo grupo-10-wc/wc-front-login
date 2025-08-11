@@ -1,11 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=close" />
+    <link rel="stylesheet" href="/auth/auth.css">
+    <title>Autenticação</title>
 </head>
 <body>
-    
+    <div class="main">
+        <div class="auth-container">
+            <div class="auth-header">
+                <h1>Autenticação de dois fatores</h1>
+            </div>
+            <div class="info">
+                <span>Enviamos um código para seu e-mail, para finalizar a autenticação escreva o código recebido.</br></br></span>
+                <span>Não recebeu o código?</span> <u onclick="enviarNovoOTP()">Reenviar código</u>
+            </div>
+            <div class="error">
+                <span>Código expirado ou inválido.</span>
+                <span class="material-symbols-outlined icon-close" onclick="fecharAlerta()">close</span>
+            </div>
+            <form class="auth-body">
+                <div class="input-container">
+                    <label for="auth">Código de autenticação</label>
+                    <input type="tel" id="auth" name="auth" maxlength="6" placeholder="******" required>
+                </div>
+
+                <button type="submit" class="auth-btn" onclick="autenticar(event)">Autenticar</button>
+            </form>
+        </div>
+    </div>
 </body>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script src="/env.js"></script>
+<script src="/auth/auth.js" async></script>
 </html>

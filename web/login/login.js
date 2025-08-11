@@ -3,26 +3,26 @@ const SENHA = window.env.SENHA;
 const EMAILJS_PUBLIC_KEY = window.env.EMAILJS_PUBLIC_KEY;
 const EMAILJS_SERVICE_ID = window.env.EMAILJS_SERVICE_ID;
 const EMAILJS_TEMPLATE_ID = window.env.EMAILJS_TEMPLATE_ID;
-const FORM = document.querySelector(".login-body");
-const ERROR = document.querySelector(".error");
+
+emailjs.init({
+    publicKey: EMAILJS_PUBLIC_KEY,
+});
 
 function entrar(event) {
     event.preventDefault();
-    estilizaBotao();
     
-    var email_ipt = document.querySelector("#email");
-    var password_ipt = document.querySelector("#senha");
+    var email = document.querySelector("#email").value;
+    var senha = document.querySelector("#senha").value;
 
-    if(email_ipt.value === EMAIL && password_ipt.value === SENHA) {
-        enviarOTP(email_ipt.value);
+    if(email === EMAIL && senha === SENHA) {
+        estilizaBotao();
+        enviarOTP(email);
         window.location.href = "/auth/auth.html";
     }
     else {
-        password_ipt.value = "";
-        ERROR.style.display = "flex";
-        estilizaBotao();
+        senha = "";
+        document.querySelector(".error").style.display = "flex";
     }
-    
 }
 
 function estilizaBotao() {
@@ -38,7 +38,7 @@ function estilizaBotao() {
 }
 
 function fecharAlerta() {
-    ERROR.style.display = "none";
+    document.querySelector(".error").style.display = "none";
 }
 
 function gerarOTP(length = 6) {
@@ -48,26 +48,35 @@ function gerarOTP(length = 6) {
 function horarioExpiracao(minutos = 15) {
     const agora = new Date();
     agora.setMinutes(agora.getMinutes() + minutos);
-    return agora.toISOString().replace('T', ' ').substring(0, 16);
+
+    const ano = agora.getFullYear();
+    const mes = String(agora.getMonth() + 1).padStart(2, '0');
+    const dia = String(agora.getDate()).padStart(2, '0');
+    const hora = String(agora.getHours()).padStart(2, '0');
+    const minuto = String(agora.getMinutes()).padStart(2, '0');
+
+    return `${ano}-${mes}-${dia} ${hora}:${minuto}`;
 }
 
 function enviarOTP(email) {
     const otp = gerarOTP();
-    const expires = horarioExpiracao();
+    const expiracao = horarioExpiracao();
 
-    emailjs.init({
-        publicKey: EMAILJS_PUBLIC_KEY,
-    });
+    salvarOTP(otp, expiracao, email);
 
     emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
         to_email: email,
         passcode: otp,
-        time: expires
+        time: expiracao
     }, window.env.EMAILJS_PUBLIC_KEY)
-    .then(() => {
-        alert("Código enviado!");
-    })
     .catch((err) => {
         alert("Erro ao enviar código: " + err.text);
+        estilizaBotao();
     });
+}
+
+function salvarOTP(otp, expiracao, email) {
+    sessionStorage.setItem('otp', otp);
+    sessionStorage.setItem('otp_expiracao', expiracao);
+    sessionStorage.setItem('email', email);
 }
